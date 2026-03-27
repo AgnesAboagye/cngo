@@ -1,0 +1,75 @@
+[PrefixDeclaration]
+:		http://www.semanticweb.org/NutritionalDataOntology/
+dc:		http://purl.org/dc/elements/1.1/
+obo:		http://purl.obolibrary.org/obo/
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+cito:		http://purl.org/spar/cito/
+core:		http://purl.obolibrary.org/obo/uberon/core#
+data:		http://www.notttingham.ac.uk/biosciences/
+doap:		http://usefulinc.com/ns/doap#
+foaf:		http://xmlns.com/foaf/0.1/
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+skos:		http://www.w3.org/2004/02/skos/core#
+chebi:		http://purl.obolibrary.org/obo/chebi/
+swrla:		http://swrl.stanford.edu/ontologies/3.3/swrla.owl#
+terms:		http://purl.org/dc/terms/
+subsets:		http://purl.obolibrary.org/obo/ro/subsets#
+metadata:	http://data.bioontology.org/metadata/
+oboInOwl:	http://www.geneontology.org/formats/oboInOwl#
+Thesaurus:	http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
+nutrition:	http://www.sementicweb.org/NutritionalDataOntology/
+
+[MappingDeclaration] @collection [[
+mappingId	MAPID-crops
+target		data:crops/{crop_id} a :crops;:cropId{crop_id};:cropCommonName{crop_common_name};:scientifcName{scientific_name};:NCBITaxonId{NCBI_Taxon_ID};:location{location_id};:faoClassification{fao_class_id} . 
+source		SELECT crop_id, crop_common_name, scientific_name, NCBI_Taxon_ID,location_id, fao_class_id FROM crops
+
+mappingId	MAPID-soil
+target		:{soil_sample_id} a nutrition:soil_sample_id;:{soil_sample_id};:soil;soilNumber{soil_number};:faoClassid{fao_class_id};:soilType{soil_type_id} . 
+source		SELECT soil_sample_id,soil_number, fao_class_id, soil_type_id FROM soil_sample
+
+mappingId	MAPID-cropPart
+target		:{crop_part_id} a :cropPart:;cropPartId{crop_part_id}:crop_part;cropPart{crop_part}xsd:literial;PoId{PO_Id}xsd:literial;PoTerm{PO_term}xsd:string . 
+source		SELECT crop_part_id, crop_part, PO_id, PO_term FROM crop_part;
+
+mappingId	MAPID-cropSore
+target		nutrition:{scoring_unit_id} a :cropScore;:scoringUnitId{scoring_unit_id}:;traitScore{crop_trait_score_id};:location{location_id};:traitDescriptor{trait_descriptor_id};:traits{trait_score};:crops{crop_id} . 
+source		SELECT scoring_unit_id, crop_trait_score_id, location_id, trait_descriptor_id, trait_score, crop_id FROM crop_score
+
+mappingId	MAPID-location
+target		:{location_id} a :location;:location{location_id};:xCoordinate{X_coord};:yCoordinate{Y_coord};:faoClassification{fao_class_id};:soilType{soil_type_id};:lantSampleNumber{plant_sample_number} . 
+source		SELECT location_id, X_coord, Y_coord, fao_class_id, soil_type_id, plant_sample_number FROM location;
+
+mappingId	MAPID-faoClassification
+target		:{fao_class_id} a :faoClassification;:faoClassificationId{fao_class_id};:faoClassification;fao_classification{fao_class};:ontology{ontology_id};:ontologyTerm{ontology_term} . 
+source		SELECT fao_class_id, fao_class, ontology_id, ontology_term FROM fao_classification;
+
+mappingId	MAPID-traits
+target		:{traits_id} a :traits;traitsId{traits_id};:traitName{trait_name};:traitSymbol{trait_symbol};:category{category};:ontologyid{ontology_id};:CHEBIid{CHEBI_id};CNDOid{CDNO_id} . 
+source		SELECT traits_id, trait_name, trait_symbol, category, ontology_id, CHEBI_id, CDNO_id FROM traits ;
+
+mappingId	MAPID-traitDescriptor
+target		:{trait_descriptor_id} a :traitDescriptors;:traitDescriptorId{trait_descriptor_id}:;description{descriptor_name};category{category};unitOfMeasurement{units_of_measurements};whereToScore{where_to_score};scoringMethod{scoring_method} . 
+source		SELECT trait_descriptor_id, descriptor_name, category, units_of_measurements, where_to_score, scoring_method FROM trait_descriptor
+
+mappingId	MAPID-soilType
+target		nutrition:{soil_type_id} a :soilType;soilTpyeId{soil_type_id};:soilType{soil_type};:ontologyid{ontology_id};:ontologyTerm{ontology_term} . 
+source		SELECT soil_type_id, soil_type, ontology_id, ontology_term FROM soil_type;
+
+mappingId	MAPID-foodGroup
+target		:{food_group_id} a :foodGroup;foodGroupId{food_group_id};:foodGroup{food_group};:foodOnId{FOODON_id};:foodOnTerm{FoodON_term} . 
+source		SELECT food_group_id, food_group, FOODON_id, FOODON_term FROM food_group
+
+mappingId	MAPID-exeperiment
+target		:{experiment_id} a :experiment;experirment_id{experiment_id}:;experimentName{experiment_name};:sampleType{sample_type};description{description};foodType{food_types};nutritionalComponent{nutritional_components};experimentDate{experiment_date} . 
+source		SELECT * FROM experiments
+
+mappingId	MAPID-soilScore
+target		:{scoring_unit_id} a :scoring_unit_id{scoring_unit_id}soilScore;;traitScore{soil_trait_score_id};;location{location_id};:traitDescriptor{trait_descriptor_id};:Score{trait_score};:soil{soil_type_id}xsd:string . 
+source		SELECT scoring_unit_id, soil_trait_score_id, location_id, trait_descriptor_id, trait_score, soil_type_id FROM soil_score
+]]
+
