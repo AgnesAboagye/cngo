@@ -1,2 +1,1 @@
-# cngo
-Crop Nutritional Global Ontology (CNGO)
+A Minimum Information to Reference an External Ontology Term (MIREOT) approach 
